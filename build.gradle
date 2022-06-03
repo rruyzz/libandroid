@@ -55,10 +55,10 @@ dependencies {
 publishing {
     publications {
         testeLib(MavenPublication) {
-            groupId 'br.com.lib.rodolfo'
+            groupId 'com.example.testelib'
             artifactId getArtifactId()
             version getVersionName()
-            artifact("$buildDir/ouputs/arr/${getArtifactId()}-release.arr")
+            artifact("$buildDir/outputs/aar/${getArtifactId()}-release.aar")
         }
     }
     repositories {
