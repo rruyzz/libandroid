@@ -56,11 +56,11 @@ afterEvaluate {
     publishing {
         repositories {
             maven {
-                name = "RRLib"
-                url = uri("https://maven.pkg.github.com/rruyzz/RRLib")
+                name = "testelib"
+                url = uri("https://maven.pkg.github.com/rruyzz/libandroid")
                 credentials {
                     username = githubProperties['gpr.usr']
-                    username = githubProperties['gpr.key']
+                    password = githubProperties['gpr.key']
                 }
             }
         }
