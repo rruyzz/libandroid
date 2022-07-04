@@ -12,7 +12,7 @@ def getVersionName = { ->
     return "1.0.0"
 }
 def getArtifactId = { ->
-    return "testelib"
+    return "rr-lib"
 }
 
 android {
@@ -51,39 +51,25 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier "sources"
-}
-publishing {
-    publications {
-        testeLib(MavenPublication) {
-            groupId 'com.example.testelib'
-            artifactId getArtifactId()
-            version getVersionName()
-            artifact("$buildDir/outputs/aar/${getArtifactId()}-release.aar")
-        }
-    }
-    repositories {
-        maven {
-            name = "libandroid"
-            url = uri("https://maven.pkg.github.com/rruyzz/libandroid")
-            credentials {
-                username = githubProperties['gpr.usr'] ?: System.getEnv("GPR_USER")
-                password = githubProperties['gpr.key'] ?: System.getEnv("GPR_API_KEY")
+
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "RRLib"
+                url = uri("https://maven.pkg.github.com/rruyzz/RRLib")
+                credentials {
+                    username = githubProperties['gpr.usr']
+                    username = githubProperties['gpr.key']
+                }
             }
         }
-    }
-    afterEvaluate {
-        def debugFile = file("$buildDir/outputs/aar/library.aar")
-        tasks.named("assembleDebug").configure {
-            doLast {
-                debugFile.renameTo("$buildDir/outputs/aar/library-debug.aar")
-            }
-        }
-        tasks.named("assembleRelease").configure {
-            doLast {
-                debugFile.renameTo("$buildDir/outputs/aar/library-release.aar")
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.rrlib'
+                artifactId = 'rr-lib'
+                version = '1.0.0'
             }
         }
     }
